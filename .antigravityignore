@@ -1,0 +1,12 @@
+node_modules
+dist
+build
+.next
+.cache
+coverage
+public/videos
+public/images
+*.mp4
+*.zip
+*.png
+*.jpg

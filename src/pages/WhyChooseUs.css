@@ -1,0 +1,311 @@
+/* ============================================================
+   DECOTUBE — Why Choose Us · Stacking Cards
+   ============================================================
+   TECHNIQUE: Pure CSS sticky stacking.
+   Each card has position:sticky and its own top offset.
+   The cards are in a normal-flow flex column — no JS needed
+   for the core mechanic. They literally stack as you scroll.
+   ============================================================ */
+
+/* ── Section wrapper ────────────────────────────────────────── */
+.wcu-section {
+  background: var(--bg);
+  padding-top: 100px;
+  /* clear navbar */
+}
+
+/* ── Heading block — normal flow, scrolls away ──────────────── */
+.wcu-heading {
+  text-align: center;
+  padding: 0 20px 45px;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.wcu-label {
+  font-size: 10px;
+  letter-spacing: 4px;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  margin-bottom: 14px;
+}
+
+.wcu-title {
+  font-size: clamp(28px, 4vw, 52px);
+  font-weight: 900;
+  color: var(--text);
+  margin: 0 0 12px;
+  letter-spacing: -1.5px;
+  line-height: 1.05;
+}
+
+.wcu-subtitle {
+  font-size: 15px;
+  color: var(--text-dim);
+  line-height: 1.65;
+  margin: 0;
+}
+
+/* ── Stack track — the scroll container ─────────────────────── */
+.wcu-track {
+  position: relative;
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 0 24px 120px;
+}
+
+/* ── Individual sticky slot ─────────────────────────────────── */
+/* Each card gets a 100vh slot so users scroll one full screen per card */
+.wcu-slot {
+  position: sticky;
+  /* top is set inline: 80px + i*20px so they layer on each other */
+  /* height of each slot defined below */
+  display: flex;
+  align-items: flex-start;
+  /* padding-top pushes card below the header of previous stacked card */
+}
+
+/* ── The visible card ───────────────────────────────────────── */
+.wcu-card {
+  width: 100%;
+  display: grid;
+  grid-template-columns: 1fr 1.4fr;
+  min-height: 380px;
+  border-radius: 24px;
+  overflow: hidden;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  box-shadow:
+    0 2px 4px rgba(0, 0, 0, 0.04),
+    0 16px 48px rgba(0, 0, 0, 0.08),
+    0 40px 80px rgba(0, 0, 0, 0.06);
+  /* Each subsequent card appears slightly "behind" previous via transform-origin */
+  transform-origin: top center;
+}
+
+/* ── LEFT: visual/icon panel ────────────────────────────────── */
+.wcu-card-visual {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  padding: 40px 28px;
+  background: linear-gradient(135deg,
+      rgba(118, 171, 223, 0.06) 0%,
+      rgba(118, 171, 223, 0.02) 100%);
+  border-right: 1px solid var(--border);
+  overflow: hidden;
+}
+
+/* Glow behind icon */
+.wcu-card-visual::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse 70% 60% at 50% 55%,
+      rgba(118, 171, 223, 0.08),
+      transparent);
+  pointer-events: none;
+}
+
+/* Top-left badge */
+.wcu-tag {
+  position: absolute;
+  top: 18px;
+  left: 18px;
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  background: var(--surface-light);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  padding: 5px 13px;
+  font-size: 9px;
+  letter-spacing: 2.5px;
+  color: var(--text-dim);
+  text-transform: uppercase;
+  z-index: 2;
+}
+
+.wcu-tag-dot {
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: #22c55e;
+  box-shadow: 0 0 6px rgba(34, 197, 94, 0.4);
+  flex-shrink: 0;
+}
+
+/* Icon circle */
+.wcu-icon-wrap {
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 56px;
+  box-shadow: 0 0 48px rgba(118, 171, 223, 0.1);
+  position: relative;
+  z-index: 1;
+  flex-shrink: 0;
+}
+
+/* Number below icon */
+.wcu-card-num {
+  font-size: 11px;
+  font-weight: 900;
+  letter-spacing: 5px;
+  color: var(--steel);
+  text-transform: uppercase;
+  z-index: 1;
+}
+
+/* Fraction — bottom right */
+.wcu-fraction {
+  position: absolute;
+  bottom: 18px;
+  right: 18px;
+  font-size: 10px;
+  letter-spacing: 2px;
+  color: var(--text-muted);
+  z-index: 2;
+}
+
+/* ── RIGHT: text panel ──────────────────────────────────────── */
+.wcu-card-body {
+  padding: clamp(32px, 5vw, 56px) clamp(28px, 4.5vw, 52px);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 18px;
+}
+
+.wcu-card-eyebrow {
+  font-size: 9px;
+  letter-spacing: 4px;
+  color: #ffffff;
+  text-transform: uppercase;
+  background: rgba(255, 255, 255, 0.1);
+  padding: 4px 12px;
+  border-radius: 180px;
+  display: inline-block;
+  font-weight: 800;
+  align-self: flex-start;
+}
+
+.wcu-card-title {
+  font-size: clamp(22px, 2.5vw, 38px);
+  font-weight: 900;
+  color: var(--steel-bright);
+  line-height: 1.1;
+  letter-spacing: -0.5px;
+  margin: 0;
+}
+
+.wcu-card-divider {
+  width: 36px;
+  height: 2px;
+  background: linear-gradient(90deg, var(--accent), transparent);
+  border-radius: 2px;
+  flex-shrink: 0;
+}
+
+.wcu-card-desc {
+  font-size: clamp(14px, 1.1vw, 17px);
+  color: var(--text-dim);
+  line-height: 1.80;
+  margin: 0;
+  max-width: 360px;
+}
+
+/* ── Bottom spacer after last card ─────────────────────────── */
+.wcu-spacer {
+  height: 60px;
+}
+
+/* ── Responsive ─────────────────────────────────────────────── */
+@media (max-width: 640px) {
+  .wcu-card {
+    grid-template-columns: 1fr;
+    min-height: auto;
+  }
+
+  .wcu-card-visual {
+    border-right: none;
+    border-bottom: 1px solid var(--border);
+    padding: 36px 20px;
+    min-height: 180px;
+  }
+
+  .wcu-icon-wrap {
+    width: 90px;
+    height: 90px;
+    font-size: 42px;
+  }
+
+  .wcu-slot {
+    height: auto !important;
+    min-height: 70vh;
+  }
+}
+
+/* ── Hover Spinning Border Effect ───────────────────────────── */
+.wcu-card-wrapper {
+  padding: 1.5px;
+  overflow: hidden;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.08), 0 32px 80px rgba(0,0,0,0.12);
+  background: var(--surface);
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  transition: box-shadow 0.3s ease;
+}
+
+.wcu-card-wrapper::before {
+  content: "";
+  position: absolute;
+  top: -50%; left: -50%; width: 200%; height: 200%;
+  background: conic-gradient(from 0deg, transparent 75%, rgba(255,255,255,0.9) 100%);
+  animation: spin-border 1.2s linear infinite;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  z-index: 0;
+}
+
+.wcu-card-wrapper:hover {
+  box-shadow: 0 10px 40px rgba(0,0,0,0.8);
+}
+
+.wcu-card-wrapper:hover::before {
+  opacity: 1;
+}
+
+.wcu-card-inner {
+  position: relative;
+  z-index: 2;
+  background: var(--surface);
+  border-radius: 23px;
+  flex: 1;
+  width: 100%;
+  display: grid;
+  grid-template-columns: 1fr 1.4fr;
+  overflow: hidden;
+}
+
+.wcu-card-border-fallback {
+  position: absolute;
+  inset: 0;
+  border: 1px solid var(--border);
+  border-radius: 24px;
+  z-index: 1;
+  transition: opacity 0.3s ease;
+}
+
+.wcu-card-wrapper:hover .wcu-card-border-fallback {
+  opacity: 0;
+}
